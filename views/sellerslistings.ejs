@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Book Management</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link href="/css/styles.css" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+        
+
+        <div class="row container">
+            <div class="col-md-1">
+                <a href="/logout" class="btn btn-danger">Logout</a>
+            </div>
+            <div class="col-md-1">
+                <a href="/" class="btn btn-warning">Home</a>
+            </div>   
+        </div>
+
+
+        <div class="container p-5">
+            <h1 class="text-center mb-5 text-uppercase text-muted">Update Book</h1>
+            
+            <div class="row">
+                <div class="col-md-12 bg-light border rounded py-3" >
+                  <div style="height: 400px; overflow: auto; width:100%">
+                   <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          
+                          <th scope="col">ISBN</th>
+                          <th scope="col">Title</th>
+                          <th scope="col">Author</th>
+                          <th scope="col">Publication Date</th>
+                          <th scope="col">Price</th>
+                          <th scope="col">Quantity</th>
+                          
+                          <th scope="col">Select</th>
+                         
+                        </tr>
+                      </thead>
+                      <tbody>
+    
+                          <% sellerallbooks.forEach((sellerallbooks) => { %>
+                            <tr>
+                                <form name="myForm" action='/updateBook' method="POST">
+                                    <td><%= sellerallbooks.ISBN %></td>
+                                    <td><%= sellerallbooks.title %></td>
+                                    <td><%= sellerallbooks.authors %></td>
+                                    <td><%= sellerallbooks.publicationDate %></td>
+                                    <td><%= sellerallbooks.price %></td>
+                                    <td name ="actualquantity"><%= sellerallbooks.quantity %></td>
+                                   
+                                    <td><button type="submit" id="addcartbutton" class="btn btn-success" >Update</button></td>
+                                   
+                                        
+                                    <input type="hidden" id="sellerId" name="sellerId" value="<%= sellerallbooks.sellerId %>">
+                                    <input type="hidden" id="sellerId" name="ISBN" value="<%= sellerallbooks.ISBN%>">
+                                   
+                                </form>
+
+                                <form name="myForm" action='/addImages' method="POST">
+                               
+                                   
+                                    <td><button type="submit" id="addcartbutton" class="btn btn-success" >Add Images</button></td>
+                                   
+                                        
+                                    <input type="hidden" id="sellerId" name="sellerId3" value="<%= sellerallbooks.sellerId %>">
+                                    <input type="hidden" id="sellerId" name="ISBN3" value="<%= sellerallbooks.ISBN%>">
+                                   
+                                </form>
+
+                                <form name="myForm" action='/viewImages' method="GET">
+                               
+                                   
+                                    <td><button type="submit" id="addcartbutton" class="btn btn-success" >View Images</button></td>
+                                   
+                                        
+                                    <input type="hidden" id="sellerId" name="sellerId4" value="<%= sellerallbooks.sellerId %>">
+                                    <input type="hidden" id="sellerId" name="ISBN4" value="<%= sellerallbooks.ISBN%>">
+                                   
+                                </form>
+
+
+                                <form onsubmit="return confirm('Do you really want to Delete?');" name="myForm3" action='/deleteBook' method="POST">
+                                    <input type="hidden" id="sellerId2" name="sellerId2" value="<%= sellerallbooks.sellerId %>"/>
+                                    <input type="hidden" id="ISBN2" name="ISBN2" value="<%= sellerallbooks.ISBN%>"/>
+                                    <td><button type="submit" id="deletebutton" class="btn btn-danger" >Delete</button></td>
+                                </form>
+                           </tr>
+                           
+                            <% }) %>
+                       
+                      </tbody>
+                    </table>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        function show_alert() {
+                if(!confirm("Do you really want to do this?")) {
+                    return false;
+                }
+                else{
+                this.form.submit();
+                }
+            }
+    </script>
+</html>

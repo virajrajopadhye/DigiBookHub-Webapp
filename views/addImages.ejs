@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+   
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Book Management</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link href="/css/styles.css" rel="stylesheet" type="text/css">
+    </head>
+
+<body>
+   
+
+        <form method="POST" action="/uploadimages?ISBN=<%= ISBNu %>" enctype="multipart/form-data">
+        
+            <div class="form-group">
+                <label>Select multiple images:</label>
+                <input type="file" name="multiple_images" multiple required />
+            </div>
+
+            
+            <div class="form-group">
+                <%= ISBNu %>
+                <!-- <input type="hidden" id="sellerId" name="isbnu2" value="<%= ISBNu %>"> -->
+                <input type="submit" name="btn_upload_multiple_images" value="Upload" />
+            </div>
+        
+        </form>
+ 
+</body>
+</html>

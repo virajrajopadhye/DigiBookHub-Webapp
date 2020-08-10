@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Update Book</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container p-5">
+        <h1 class="text-center mb-5 text-uppercase text-muted">Update Book in cart</h1>
+        <div class="row">
+            <div class="col-md-6 bg-light border rounded py-3">
+               
+                <% cartbook.forEach((cartbook) => { %>
+                <form action="/updateBookInCart" method="POST">
+                        <div class="form-group">
+                          <label for="_rname">ISBN</label>
+                          <input type="text" name="ISBN" id="isbn" class="form-control" placeholder="First Name" value="<%= cartbook.ISBN%>" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="_rname">Title</label>
+                            <input type="text" name="title" id="_lname" class="form-control" placeholder="Last Name" value="<%= cartbook.title%>" readonly>
+                          </div>
+                        <div class="form-group">
+                          <label for="_remail">Authors</label>
+                          <input type="email" name="authors" id="_remail" class="form-control" placeholder="Email" value="<%= cartbook.authors%>" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="_remail">Previous Quantity</label>
+                            <input type="email" name="previousquantity" id="_remail" class="form-control" placeholder="Email" value="<%= quantityBought%>" readonly>
+                          </div>
+
+                        <div class="form-group">
+                          <label for="_rpass">Price</label>
+                          <input type="text" name="price" id="_rpass" class="form-control" value="<%= cartbook.price%>" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="_rpass">Enter New Quantity</label>
+                            <input type="number" name="newquantity" id="_rpass" min="1" max="<%= cartbook.quantity%>" class="form-control" required>
+                          </div>
+                        <% if (locals.register_error) { 
+                          register_error.forEach(function(error_msg){ %>
+                          <div class="alert alert-danger" role="alert"><%= error_msg %></div>
+                        <% });
+                        } %>
+                        <input type="hidden"  name="sellerId" value="<%= cartbook.sellerId%>" />
+                        <button type="submit" class="btn btn-success" >Save</button>
+                    </form>
+                    <% }) %>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+</html>

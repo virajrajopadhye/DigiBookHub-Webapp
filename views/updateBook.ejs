@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Book Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="/css/styles.css" rel="stylesheet" type="text/css">
+</head>
+
+
+<body onload="loadFunction()">
+
+
+
+        <div class="row container">
+          <div class="col-md-1">
+              <a href="/logout" class="btn btn-danger">Logout</a>
+          </div>
+          <div class="col-md-1">
+              <a href="/" class="btn btn-warning">Home</a>
+          </div>  
+          <div class="col-md-2">
+            <a href="/sellerhome" class="btn btn-warning">Seller Home</a>
+        </div>  
+        </div>
+
+    <div class="container p-5">
+        <h1 class="text-center mb-5 text-uppercase text-muted">Update Book</h1>
+        <div class="row">
+            <div class="col md-6 bg-light border rounded py-3" >
+                <% sellerallbooks.forEach((sellerallbooks) => { %>
+                    <form onsubmit="return price()"action="/updatebookstatus" method="POST">
+
+                        <div class="form-group">
+                        <label for="_rname">ISBN</label>
+                        <input type="text" name="ISBNMain" id="_ISBN" class="form-control" placeholder="ISBN" value="<%= sellerallbooks.ISBN %>" required readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="_rname">Title</label>
+                            <input type="text" name="title" id="_title" class="form-control" placeholder="Title" value="<%= sellerallbooks.title %>" required readonly>
+                          </div>
+
+                        <div class="form-group">
+                        <label for="_rpass">Select Quantity</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity"min="0" max="999" placeholder="Quantity" required> 
+                        </div>
+
+                        <div class="form-group">
+                        <label for="_rpass">Price</label>
+                        <input type="text" name="price" id="_price" maxlength="7" class="form-control" step=".01" placeholder="Price" onkeypress="return validateFloatKeyPress(this,event);" required>
+                        </div>
+
+                        <% if (locals.book_error) { 
+                        book_error.forEach(function(error_msg){ %>
+                        <div class="alert alert-danger" role="alert"><%= error_msg %></div>
+                        <% });
+                        } %>
+                        <button type="submit" class="btn btn-success" >Update</button>
+                    </form>
+            <% }) %>
+              <div>
+                
+              </div>
+
+        </div>
+    </div>
+</body>
+
+<script>
+  function loadFunction() {
+   
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+
+    if(dd<10){
+        dd='0'+dd;
+    } 
+    if(mm<10){
+        mm='0'+mm;
+    } 
+
+    today = yyyy+'-'+mm+'-'+dd;                
+    document.getElementById("_publicationDate").defaultValue =today+"";
+    document.getElementById("quantity").defaultValue =1;
+}
+
+
+function validateFloatKeyPress(el, evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    var number = el.value.split('.');
+    if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    //just one dot
+    if(number.length>1 && charCode == 46){
+         return false;
+    }
+    //get the carat position
+    var caratPos = getSelectionStart(el);
+    var dotPos = el.value.indexOf(".");
+    if( caratPos > dotPos && dotPos>-1 && (number[1].length > 1)){
+        return false;
+    }
+    return true;
+}
+
+
+function getSelectionStart(o) {
+	if (o.createTextRange) {
+		var r = document.selection.createRange().duplicate()
+		r.moveEnd('character', o.value.length)
+		if (r.text == '') return o.value.length
+		return o.value.lastIndexOf(r.text)
+	} else return o.selectionStart
+}
+
+function price(){
+    console.log('hellp');
+}
+
+</script>
+
+
+</html>

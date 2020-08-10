@@ -1,0 +1,49 @@
+<html>
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Login Or Register</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+
+<body>
+    <div class="container p-5">
+        <h1 class="text-center mb-5 text-uppercase text-muted">Node JS Login and Registration System</h1>
+        <div class="row">
+            
+            <div class="col-sm-6 bg-light rounded border py-3 offset-sm-1">
+                <h2 class="text-center">Update</h2>
+
+                <form action="/updateDetails" method="POST" novalidate>
+                        <div class="form-group">
+                          <label for="_rname">First Name</label>
+                          <input type="text" name="user_fname" id="_fname" class="form-control" placeholder="First Name" value="<%= (locals.old_data) ? old_data.user_fname : ''; %>" required></input>
+                          
+                        </div>
+                        <div class="form-group">
+                            <label for="_rname">Last Name</label>
+                            <input type="text" name="user_lname" id="_lname" class="form-control" placeholder="Last Name" value="<%= (locals.old_data) ? old_data.user_lname : ''; %>" required>
+                          </div>
+                        
+                        <div class="form-group">
+                          <label for="_rpass">Password</label>
+                          <input type="password" name="user_pass" id="_rpass" class="form-control" placeholder="Password" required>
+                        </div>
+                        <% if (locals.register_error) { 
+                          register_error.forEach(function(error_msg){ %>
+                          <div class="alert alert-danger" role="alert"><%= error_msg %></div>
+                        <% });
+                        } %>
+                        <button type="submit" class="btn btn-success" >Save</button>
+                    </form>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+</html>    

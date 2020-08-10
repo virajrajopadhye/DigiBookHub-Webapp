@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Book Management</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link href="/css/styles.css" rel="stylesheet" type="text/css">
+    </head>
+
+    <body>
+        
+
+        <div class="row container">
+            <div class="col-md-1">
+                <a href="/logout" class="btn btn-danger">Logout</a>
+            </div>
+            <div class="col-md-1">
+                <a href="/" class="btn btn-warning">Home</a>
+            </div>   
+        </div>
+
+
+        <div class="container p-5">
+            <h1 class="text-center mb-5 text-uppercase text-muted">Buyer Home</h1>
+            <a class="custom" href='/viewcart'>View Cart</a>
+            <div class="row">
+                <div class="col-md-12 bg-light border rounded py-3" >
+                  <div style="height: 400px; overflow: auto; width:100%">
+                   <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          
+                          <th scope="col">ISBN</th>
+                          <th scope="col">Title</th>
+                          <th scope="col">Author</th>
+                          <th scope="col">Publication Date</th>
+                          <th scope="col">Price</th>
+                          <th scope="col">Quantity</th>
+                          <th scope="col">Seller Name</th>
+                          <th scope="col">Select</th>
+                         
+                        </tr>
+                      </thead>
+                      <tbody>
+    
+                          <% sellerbooks.forEach((sellerbooks) => { %>
+                            <tr>
+                                <form  name="myForm" action='/addToCart' method="POST">
+                                    <td><%= sellerbooks.ISBN %></td>
+                                    <td><%= sellerbooks.title %></td>
+                                    <td><%= sellerbooks.authors %></td>
+                                    <td><%= sellerbooks.publicationDate %></td>
+                                    <td><%= sellerbooks.price %></td>
+                                    <td name ="actualquantity"><%= sellerbooks.quantity %></td>
+                                    <td><%= sellerbooks.firstName %></td>
+                                    
+                                    <td>
+                                        <input type="number" class="form-control" id="quantity" name="quantityBought"min="1" max="<%= sellerbooks.quantity %>" placeholder="Quantity" style="width: 120px;" required> 
+                                    </td>
+                                    <td><button type="submit" id="addcartbutton" class="btn btn-success" >Add to cart</button></td>
+                                    <input type="hidden" id="sellerId" name="sellerId" value="<%= sellerbooks.sellerId %>">
+                                    <input type="hidden" id="cartISBN" name="cartISBN" value="<%= sellerbooks.ISBN %>">
+                                </form>
+                                <form  name="myForm" action='/buyerImages' method="POST">
+                               
+                                    <td><button type="submit" id="addcartbutton" class="btn btn-success" >View Images</button></td>
+                                    <input type="hidden" id="sellerId" name="sellerId" value="<%= sellerbooks.sellerId %>">
+                                    <input type="hidden" id="cartISBN" name="cartISBN" value="<%= sellerbooks.ISBN %>">
+                                </form>
+                           </tr>
+                           
+                            <% }) %>
+                       
+                      </tbody>
+                    </table>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

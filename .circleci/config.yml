@@ -1,0 +1,69 @@
+version: 2.1
+orbs:
+  node: circleci/node@1.1.6
+jobs:
+  pr-check:
+   working_directory: ~/webapp # directory where steps will run
+   docker: # run the steps with Docker
+    - image: circleci/node:10.16.3 
+   steps:
+    - checkout
+    - node/with-cache:
+        steps:
+          - run: npm install
+          - run: npm test
+  build:
+   working_directory: ~/webapp # directory where steps will run
+   docker: # run the steps with Docker
+    - image: circleci/node:10.16.3 
+   steps:
+    - checkout
+    - run: npm install
+    - run: npm test
+    - run: 
+        name: Install Packages
+        command: sudo apt-get update && sudo apt-get install wget zip unzip
+    - run:
+        name: Install aswcli
+        command: sudo apt-get install awscli -y
+    - run:
+        name: Build Deployment Artifact
+        command: |
+              cp appspec.yml /home/circleci
+              cat appspec.yml
+              cp -R codedeploy /home/circleci
+              cd ..
+              mkdir codedeploy_artifact
+              zip -r csye6225-webapp-${CIRCLE_BUILD_NUM}.zip webapp appspec.yml codedeploy
+              pwd
+              ls -al
+              pwd
+              mv csye6225-webapp-${CIRCLE_BUILD_NUM}.zip codedeploy_artifact/
+              ls -al
+              pwd
+              cd codedeploy_artifact
+              pwd
+              ls -al
+              cd ..
+    - run: 
+        name: Copy Artifact to S3
+        command: aws s3 sync /home/circleci/codedeploy_artifact s3://${S3_CODEDEPLOY_BUCKET} 
+    - run:
+        name: CodeDeploy Call
+        command: |
+              aws deploy create-deployment \
+                --application-name ${CODEDEPLOY_APPLICATION_NAME} \
+                --deployment-config-name CodeDeployDefault.AllAtOnce \
+                --deployment-group-name ${CODEDEPLOY_APPLICATION_DEPLOYMENT_GROUP_NAME} \
+                --description "CSYE-CodeDeploy-Testung" \
+                --s3-location bucket=${S3_CODEDEPLOY_BUCKET},key=csye6225-webapp-${CIRCLE_BUILD_NUM}.zip,bundleType=zip \
+                --region ${REGION} \
+                --output json
+
+workflows:
+    # pr-check:
+    #   jobs:
+    #     - pr-check
+    build_deploy:
+      jobs:
+        - build

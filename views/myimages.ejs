@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Home</title>
+        <!-- BOOTSTRAP CDN -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    </head>
+    <body>
+       
+        <% for(var i=0; i< imgarray.length; i++) { %>
+            <%= imgarray[i].key %>
+           <form action="/deleteImage" method="POST"> 
+            <img src='data:image/jpeg;base64,<%= imgarray[i].enc %>'/>
+            <input type="hidden" name="uniqueIdentifier" value="<%= imgarray[i].key %>"/>    
+            <input type="submit" class="button" value="Delete" name="deleteimage"/>
+        </form>
+        <% } %>
+        
+    </body>
+</html>
